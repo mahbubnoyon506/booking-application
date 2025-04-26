@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
+import mongoose from "mongoose";
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
 const PORT = process.env.PORT || 7000;
 
 const app = express();
@@ -13,5 +15,5 @@ app.get("/api/test", async (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running or localhost:${PORT}`);
+  console.log(`Server running on localhost:${PORT}`);
 });
