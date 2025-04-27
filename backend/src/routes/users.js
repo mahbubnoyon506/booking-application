@@ -31,6 +31,10 @@ router.post(
       user = new User(req.body);
       await user.save();
 
+      if (!process.env.JWT_SECRET_KEY) {
+        throw new Error("JWT_SECRET_KEY is not defined");
+      }
+
       const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, {
         expiresIn: "1d",
       });
