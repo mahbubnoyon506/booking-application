@@ -1,0 +1,142 @@
+import { useForm } from "react-hook-form";
+
+type FormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+const Register = () => {
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+  };
+  return (
+    <div>
+      <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+        <h2 className="text-3xl font-bold">Create an account</h2>
+        <div className="flex flex-col md:flex-row gap-5">
+          <label
+            className="text-gray-700 text-sm font-bold flex-1"
+            htmlFor="firstName"
+          >
+            First Name
+            <input
+              type="text"
+              id="firstName"
+              placeholder="First Name"
+              className="border rounded w-full py-1 px-2 font-normal"
+              {...register("firstName", { required: "Firstname is required" })}
+            />
+            {errors.firstName && (
+              <span className="text-red-500 text-xs">
+                {errors.firstName.message}
+              </span>
+            )}
+          </label>
+          <label
+            className="text-gray-700 text-sm font-bold flex-1"
+            htmlFor="lastName"
+          >
+            Last Name
+            <input
+              type="text"
+              id="lastName"
+              placeholder="Last Name"
+              className="border rounded w-full py-1 px-2 font-normal"
+              {...register("lastName", { required: "Lastname is required" })}
+            />
+            {errors.lastName && (
+              <span className="text-red-500 text-xs">
+                {errors.lastName.message}
+              </span>
+            )}
+          </label>
+        </div>
+        <label
+          className="text-gray-700 text-sm font-bold flex-1"
+          htmlFor="email"
+        >
+          Email
+          <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            className="border rounded w-full py-1 px-2 font-normal"
+            {...register("email", { required: "Email is required" })}
+          />
+          {errors.email && (
+            <span className="text-red-500 text-xs">{errors.email.message}</span>
+          )}
+        </label>
+        <label
+          className="text-gray-700 text-sm font-bold flex-1"
+          htmlFor="password"
+        >
+          Password
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            className="border rounded w-full py-1 px-2 font-normal"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
+          />
+          {errors.password && (
+            <span className="text-red-500 text-xs">
+              {errors.password.message}
+            </span>
+          )}
+        </label>
+        <label
+          className="text-gray-700 text-sm font-bold flex-1"
+          htmlFor="confirmPassword"
+        >
+          Confirm Password
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            className="border rounded w-full py-1 px-2 font-normal"
+            {...register("confirmPassword", {
+              validate: (value: string) => {
+                if (!value) {
+                  return "Confirm Password is required";
+                } else if (value !== watch("password")) {
+                  return "Passwords do not match";
+                }
+              },
+            })}
+          />
+          {errors.confirmPassword && (
+            <span className="text-red-500 text-xs">
+              {errors.confirmPassword.message}
+            </span>
+          )}
+        </label>
+        <span>
+          <button
+            className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 transition duration-300 ease-in-out"
+            type="submit"
+          >
+            Create Account
+          </button>
+        </span>
+      </form>
+    </div>
+  );
+};
+
+export default Register;
