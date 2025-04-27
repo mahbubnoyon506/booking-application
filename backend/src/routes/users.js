@@ -45,7 +45,15 @@ router.post(
         maxAge: 86400000, // 1 day
       });
 
-      return res.sendStatus(200);
+      return res.status(200).json({
+        message: "User registered successfully",
+        user: {
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        },
+      });
     } catch (error) {
       console.error(error);
       return res.status(500).send({ message: "Something went wrong" });
