@@ -46,6 +46,7 @@ router.post(
       });
 
       return res.status(200).json({
+        success: true,
         message: "User registered successfully",
         user: {
           id: user._id,
