@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
 const userRoutes = require("./routes/users");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 const PORT = process.env.PORT || 7000;
@@ -23,6 +24,7 @@ mongoose
 
 // routes
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 // server
 app.listen(PORT, () => {
