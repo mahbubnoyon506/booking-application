@@ -46,6 +46,7 @@ router.post(
       });
       return res.status(200).json({
         message: "Login successful",
+        success: true,
         user: {
           id: user._id,
           firstName: user.firstName,

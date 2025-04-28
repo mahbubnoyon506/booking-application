@@ -1,4 +1,8 @@
 import { useForm } from "react-hook-form";
+import { useAppContext } from "../contexts/Appcontext";
+import { useNavigate } from "react-router-dom";
+import { handleSignIn } from "../api-clients";
+import { useMutation } from "@tanstack/react-query";
 
 export type SignInFormValues = {
   email: string;
@@ -6,19 +10,42 @@ export type SignInFormValues = {
 };
 
 const SignIn = () => {
+  const { showToast } = useAppContext();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<SignInFormValues>();
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: handleSignIn,
+    onSuccess: async () => {
+      showToast({
+        message: "Login successful!",
+        type: "SUCCESS",
+      });
+      reset();
+      navigate("/");
+    },
+    onError: () => {
+      showToast({
+        message: "An error occurred. Please try again.",
+        type: "ERROR",
+      });
+    },
+  });
+
   const onSubmit = (data: SignInFormValues) => {
-    console.log(data);
+    mutate(data);
   };
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
       <h1 className="text-4xl font-bold mb-4">Sign In</h1>
+
       <label className="text-gray-700 text-sm font-bold flex-1" htmlFor="email">
         Email
         <input
@@ -32,6 +59,7 @@ const SignIn = () => {
           <span className="text-red-500 text-xs">{errors.email.message}</span>
         )}
       </label>
+
       <label
         className="text-gray-700 text-sm font-bold flex-1"
         htmlFor="password"
@@ -50,12 +78,14 @@ const SignIn = () => {
           </span>
         )}
       </label>
+
       <span>
         <button
           type="submit"
-          className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 transition duration-300 ease-in-out"
+          disabled={isPending}
+          className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 transition duration-300 ease-in-out disabled:opacity-50"
         >
-          Sign In
+          {isPending ? "Loading..." : "Sign In"}
         </button>
       </span>
     </form>
