@@ -6,6 +6,7 @@ const API_BASE_URL =
 export const handleRegister = async (formData: FormData) => {
   const response = await fetch(`${API_BASE_URL}/users/register`, {
     method: "POST",
+    credentials: "include",
     body: JSON.stringify(formData),
     headers: {
       "Content-Type": "application/json",
@@ -16,5 +17,15 @@ export const handleRegister = async (formData: FormData) => {
     throw new Error("Network response was not ok");
   }
 
+  return await response.json();
+};
+
+export const verifyToken = async () => {
+  const response = await fetch(`${API_BASE_URL}/auth/verify-token`, {
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
   return await response.json();
 };

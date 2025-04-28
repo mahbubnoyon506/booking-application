@@ -3,6 +3,7 @@ const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const { verifyToken } = require("../middleware/auth");
 const router = express.Router();
 
 router.post(
@@ -57,5 +58,9 @@ router.post(
     }
   }
 );
+
+router.get("/verify-token", verifyToken, (req, res) => {
+  res.status(200).json({ userId: req.userId });
+});
 
 module.exports = router;

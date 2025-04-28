@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../contexts/Appcontext";
 
 function Header() {
+  const { isLoggedIn } = useAppContext();
+  console.log(isLoggedIn);
+
   return (
     <div className=" bg-blue-800 py-6">
       <div className="container mx-auto flex justify-between">
