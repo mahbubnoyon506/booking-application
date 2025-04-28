@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { handleRegister } from "../api-clients";
 import { useAppContext } from "../contexts/Appcontext";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type FormData = {
   firstName: string;
@@ -13,9 +13,9 @@ export type FormData = {
 };
 
 const Register = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const { showToast } = useAppContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const {
     register,
     watch,
@@ -24,29 +24,27 @@ const Register = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
-    setIsLoading(true);
-    try {
-      const response = await handleRegister(data);
-      if (response.success) {
-        showToast({
-          message: "Registration successful!",
-          type: "SUCCESS",
-        });
-        reset();
-        navigate("/");
-      } else {
-        showToast({
-          message: response.message,
-          type: "ERROR",
-        });
-      }
+  const { mutate, isPending } = useMutation({
+    mutationFn: handleRegister,
+    onSuccess: async () => {
+      showToast({
+        message: "Registration successful!",
+        type: "SUCCESS",
+      });
+      await queryClient.invalidateQueries({ queryKey: ["validateToken"] });
       reset();
-    } catch (error) {
-      console.error("Registration failed", error);
-    } finally {
-      setIsLoading(false);
-    }
+      navigate("/");
+    },
+    onError: () => {
+      showToast({
+        message: "An error occurred. Please try again.",
+        type: "ERROR",
+      });
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    mutate(data);
   };
 
   return (
@@ -161,9 +159,9 @@ const Register = () => {
           <button
             className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 transition duration-300 ease-in-out"
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
           >
-            {isLoading ? "Creating Account..." : "Create Account"}
+            {isPending ? "Creating Account..." : "Create Account"}
           </button>
         </span>
       </form>
