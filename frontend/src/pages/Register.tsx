@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { handleRegister } from "../api-clients";
 import { useAppContext } from "../contexts/Appcontext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type FormData = {
@@ -155,7 +155,13 @@ const Register = () => {
             </span>
           )}
         </label>
-        <span>
+        <span className="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-2">
+          <span className="text-sm">
+            Already have an account?{" "}
+            <Link to="/sign-in" className="text-blue-600 underline">
+              Sign In
+            </Link>
+          </span>
           <button
             className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 transition duration-300 ease-in-out"
             type="submit"

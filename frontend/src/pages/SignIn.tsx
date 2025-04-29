@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useAppContext } from "../contexts/Appcontext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleSignIn } from "../api-clients";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -81,7 +81,13 @@ const SignIn = () => {
         )}
       </label>
 
-      <span>
+      <span className="flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-2">
+        <span className="text-sm">
+          Not Registered?{" "}
+          <Link to="/register" className="text-blue-600 underline">
+            Create an account
+          </Link>
+        </span>
         <button
           type="submit"
           disabled={isPending}
