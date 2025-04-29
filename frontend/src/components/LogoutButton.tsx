@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../contexts/Appcontext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { handleSignOut } from "../api-clients";
+import { useAppContext } from "../contexts/AppContext";
 
 const LogoutButton = () => {
   const { showToast } = useAppContext();

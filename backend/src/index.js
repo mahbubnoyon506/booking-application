@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
@@ -26,6 +27,8 @@ mongoose
   .connect(process.env.MONGODB_CONNECTION_STRING)
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("MongoDB connection error:", error));
+
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 // routes
 app.use("/api/users", userRoutes);

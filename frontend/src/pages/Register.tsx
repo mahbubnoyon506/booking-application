@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { handleRegister } from "../api-clients";
-import { useAppContext } from "../contexts/Appcontext";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAppContext } from "../contexts/AppContext";
 
 export type FormData = {
   firstName: string;

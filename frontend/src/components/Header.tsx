@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useAppContext } from "../contexts/Appcontext";
 import LogoutButton from "./LogoutButton";
+import { useAppContext } from "../contexts/AppContext";
 
 function Header() {
   const { isLoggedIn } = useAppContext();
