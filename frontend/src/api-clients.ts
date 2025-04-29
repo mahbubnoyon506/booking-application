@@ -4,7 +4,7 @@ import { SignInFormValues } from "./pages/SignIn";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const handleRegister = async (formData: FormData) => {
-  const response = await fetch(`${API_BASE_URL}/users/register`, {
+  const response = await fetch(`${API_BASE_URL}/api/users/register`, {
     method: "POST",
     credentials: "include",
     body: JSON.stringify(formData),
@@ -21,7 +21,7 @@ export const handleRegister = async (formData: FormData) => {
 };
 
 export const handleSignIn = async (formData: SignInFormValues) => {
-  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -38,7 +38,7 @@ export const handleSignIn = async (formData: SignInFormValues) => {
 };
 
 export const handleSignOut = async () => {
-  const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+  const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
     method: "POST",
     credentials: "include",
   });
@@ -51,7 +51,7 @@ export const handleSignOut = async () => {
 };
 
 export const verifyToken = async () => {
-  const response = await fetch(`${API_BASE_URL}/auth/verify-token`, {
+  const response = await fetch(`${API_BASE_URL}/api/auth/verify-token`, {
     credentials: "include",
   });
   if (!response.ok) {
