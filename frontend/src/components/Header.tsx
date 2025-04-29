@@ -1,10 +1,9 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../contexts/Appcontext";
+import LogoutButton from "./LogoutButton";
 
 function Header() {
   const { isLoggedIn } = useAppContext();
-  console.log(isLoggedIn);
 
   return (
     <div className=" bg-blue-800 py-6">
@@ -14,9 +13,7 @@ function Header() {
         </span>
         <span className="flex space-x-2">
           {isLoggedIn ? (
-            <button className="flex items-center bg-white text-blue-600 px-3 font-bold hover:bg-gray-200">
-              Sign Out
-            </button>
+            <LogoutButton />
           ) : (
             <Link
               to="/sign-in"

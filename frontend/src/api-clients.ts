@@ -38,6 +38,19 @@ export const handleSignIn = async (formData: SignInFormValues) => {
   return await response.json();
 };
 
+export const handleSignOut = async () => {
+  const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  return await response.json();
+};
+
 export const verifyToken = async () => {
   const response = await fetch(`${API_BASE_URL}/auth/verify-token`, {
     credentials: "include",

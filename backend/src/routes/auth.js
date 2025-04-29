@@ -64,4 +64,11 @@ router.get("/verify-token", verifyToken, (req, res) => {
   res.status(200).json({ userId: req.userId });
 });
 
+router.post("/logout", (req, res) => {
+  res.cookie("auth_token", "", {
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logout successful" });
+});
+
 module.exports = router;
