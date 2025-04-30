@@ -29,12 +29,7 @@ mongoose
   .catch((error) => console.error("MongoDB connection error:", error));
 
 // Serve static files from the React frontend
-app.use(express.static(path.join(__dirname, "../frontend/dist"))); // or 'build' if you're using create-react-app
-
-// Catch-all to return index.html for client-side routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-});
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 // routes
 app.use("/api/users", userRoutes);
