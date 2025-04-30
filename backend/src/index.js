@@ -4,9 +4,18 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const { v2: cloudinary } = require("cloudinary");
+
+// Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
+const hotelRoutes = require("./routes/my-hotels");
 
 const app = express();
 const PORT = process.env.PORT || 7000;
@@ -34,6 +43,7 @@ app.use(express.static(path.join(__dirname, "../frontend/dist")));
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/my-hotels", hotelRoutes);
 
 // server
 app.listen(PORT, () => {
