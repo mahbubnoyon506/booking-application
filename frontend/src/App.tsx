@@ -9,9 +9,13 @@ import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
 import { useEffect, useState } from "react";
 import Loader from "./components/Loader";
+import AddHotel from "./pages/AddHotel";
+import { useAppContext } from "./contexts/AppContext";
 
 function App() {
   const [isLoading, setIsloading] = useState(false);
+  const { isLoggedIn } = useAppContext();
+
   useEffect(() => {
     setIsloading(true);
     if (document.readyState === "complete") {
@@ -64,6 +68,11 @@ function App() {
                 </Layout>
               }
             />
+            {isLoggedIn && (
+              <>
+                <Route path="/add-hotel" element={<AddHotel />} />
+              </>
+            )}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Router>
