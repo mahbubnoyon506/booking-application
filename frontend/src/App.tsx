@@ -70,7 +70,14 @@ function App() {
             />
             {isLoggedIn && (
               <>
-                <Route path="/add-hotel" element={<AddHotel />} />
+                <Route
+                  path="/add-hotel"
+                  element={
+                    <Layout>
+                      <AddHotel />
+                    </Layout>
+                  }
+                />
               </>
             )}
             <Route path="*" element={<Navigate to="/" />} />
