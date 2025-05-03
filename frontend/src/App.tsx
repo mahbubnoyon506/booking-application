@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import Loader from "./components/Loader";
 import AddHotel from "./pages/AddHotel";
 import { useAppContext } from "./contexts/AppContext";
+import MyHotels from "./pages/MyHotels";
 
 function App() {
   const [isLoading, setIsloading] = useState(false);
@@ -75,6 +76,14 @@ function App() {
                   element={
                     <Layout>
                       <AddHotel />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/my-hotels"
+                  element={
+                    <Layout>
+                      <MyHotels />
                     </Layout>
                   }
                 />
