@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchHotelById } from "../api-clients";
 import { useParams } from "react-router-dom";
+import Loader from "../components/Loader";
+import ManageHotelForm from "../forms/ManageHotelForm/ManageHotelForm";
 
 const UpdateHotel = () => {
   const { hotelId } = useParams();
@@ -13,7 +15,19 @@ const UpdateHotel = () => {
   });
   console.log(hotel);
 
-  return <div>UpdateHotel</div>;
+  return (
+    <div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ManageHotelForm
+          hotel={hotel}
+          isPending={isLoading}
+          onSave={() => {}}
+        />
+      )}
+    </div>
+  );
 };
 
 export default UpdateHotel;

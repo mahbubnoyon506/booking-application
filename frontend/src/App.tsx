@@ -89,7 +89,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/my-hotels/:hotelId"
+                  path="/upate-hotel/:hotelId"
                   element={
                     <Layout>
                       <UpdateHotel />

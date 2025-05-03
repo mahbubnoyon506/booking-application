@@ -4,9 +4,9 @@ import { HotelFormData } from "./ManageHotelForm";
 const ImagesSection = () => {
   const {
     register,
+    formState: { errors },
     watch,
     setValue,
-    formState: { errors },
   } = useFormContext<HotelFormData>();
 
   const existingImageUrls = watch("imageURLs");
@@ -27,8 +27,8 @@ const ImagesSection = () => {
       <div className="border rounded p-4 flex flex-col gap-4">
         {existingImageUrls && (
           <div className="grid grid-cols-6 gap-4">
-            {existingImageUrls.map((url, index) => (
-              <div key={index} className="relative group">
+            {existingImageUrls.map((url) => (
+              <div className="relative group">
                 <img src={url} className="min-h-full object-cover" />
                 <button
                   onClick={(event) => handleDelete(event, url)}
@@ -49,7 +49,7 @@ const ImagesSection = () => {
           {...register("imageFiles", {
             validate: (imageFiles) => {
               const totalLength =
-                (imageFiles?.length || 0) + (existingImageUrls?.length || 0);
+                imageFiles.length + (existingImageUrls?.length || 0);
 
               if (totalLength === 0) {
                 return "At least one image should be added";
@@ -64,7 +64,7 @@ const ImagesSection = () => {
           })}
         />
       </div>
-      {errors.imageFiles?.message && (
+      {errors.imageFiles && (
         <span className="text-red-500 text-xs font-bold">
           {errors.imageFiles.message}
         </span>
