@@ -21,12 +21,9 @@ function App() {
   useEffect(() => {
     setIsloading(true);
     if (document.readyState === "complete") {
-      console.log("App fully loaded");
       setIsloading(false);
     } else {
-      window.addEventListener("load", () => {
-        console.log("App fully loaded");
-      });
+      window.addEventListener("load", () => {});
       setIsloading(false);
     }
   }, []);

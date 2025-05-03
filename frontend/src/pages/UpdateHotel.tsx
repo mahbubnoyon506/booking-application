@@ -6,14 +6,12 @@ import ManageHotelForm from "../forms/ManageHotelForm/ManageHotelForm";
 
 const UpdateHotel = () => {
   const { hotelId } = useParams();
-  console.log(hotelId);
 
   const { data: hotel, isLoading } = useQuery({
     queryKey: ["my-hotel-id", hotelId],
     queryFn: () => fetchHotelById(hotelId || ""),
     enabled: !!hotelId,
   });
-  console.log(hotel);
 
   return (
     <div>

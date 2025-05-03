@@ -18,7 +18,7 @@ const MyHotels = () => {
         <h1 className="text-3xl font-bold">My Hotels</h1>
         <Link
           to="/add-hotel"
-          className="flex bg-blue-600 text-white text-xl font-bold p-2 hover:bg-blue-500"
+          className=" bg-blue-600 text-white text-md font-semibold px-4 py-2 hover:bg-blue-500"
         >
           Add Hotel
         </Link>
@@ -27,10 +27,11 @@ const MyHotels = () => {
         {isLoading ? (
           <Loader />
         ) : hotels && hotels.length > 0 ? (
-          hotels.map((hotel) => (
+          hotels.map((hotel, index) => (
             <div
               data-testid="hotel-card"
               className="flex flex-col justify-between border border-slate-300 rounded-lg p-8 gap-5"
+              key={index}
             >
               <h2 className="text-2xl font-bold">{hotel.name}</h2>
               <div className="whitespace-pre-line">{hotel.description}</div>
@@ -58,7 +59,7 @@ const MyHotels = () => {
               <span className="flex justify-end">
                 <Link
                   to={`/upate-hotel/${hotel._id}`}
-                  className="flex bg-blue-600 text-white text-xl font-bold p-2 hover:bg-blue-500"
+                  className=" bg-blue-600 text-white text-md font-semibold px-4 py-2 hover:bg-blue-500"
                 >
                   View Details
                 </Link>

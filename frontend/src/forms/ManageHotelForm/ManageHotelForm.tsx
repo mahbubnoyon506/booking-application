@@ -82,7 +82,7 @@ const ManageHotelForm = ({ onSave, isPending, hotel }: Props) => {
         <span className="flex justify-end">
           <button
             type="submit"
-            className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl disabled:bg-gray-500"
+            className=" min-w-28 bg-blue-600 text-white text-md font-semibold px-4 py-2 hover:bg-blue-500 disabled:bg-gray-500"
             disabled={isPending}
           >
             Save
