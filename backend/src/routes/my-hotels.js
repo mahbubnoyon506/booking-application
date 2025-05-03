@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const { v2: cloudinary } = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 const Hotel = require("../models/hotel");
 const { verifyToken } = require("../middleware/auth");
 const { body } = require("express-validator");
@@ -10,7 +10,7 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 5 * 1024 * 10234, // 5MB
+    fileSize: 5 * 1024 * 1024, // 5MB
   },
 });
 
@@ -42,8 +42,8 @@ router.post(
       //Upload image to cloudinary
       const uploadPromises = imageFiles.map(async (image) => {
         const b64 = Buffer.from(image.buffer).toString("base64");
-        const dataURI = "data:" + image.mimetype + ";base64" + b64;
-        const res = await cloudinary.v2.uploader.upload(dataURI);
+        const dataURI = "data:" + image.mimetype + ";base64," + b64;
+        const res = await cloudinary.uploader.upload(dataURI);
         return res.url;
       });
 

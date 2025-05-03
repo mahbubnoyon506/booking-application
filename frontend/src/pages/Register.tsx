@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppContext } from "../contexts/AppContext";
 
-export type FormData = {
+export type RegisterFormData = {
   firstName: string;
   lastName: string;
   email: string;
@@ -22,7 +22,7 @@ const Register = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<RegisterFormData>();
 
   const { mutate, isPending } = useMutation({
     mutationFn: handleRegister,
@@ -43,7 +43,7 @@ const Register = () => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: RegisterFormData) => {
     mutate(data);
   };
 

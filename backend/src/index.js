@@ -4,7 +4,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const { v2: cloudinary } = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 
 // Configuration
 cloudinary.config({
@@ -38,7 +38,7 @@ mongoose
   .catch((error) => console.error("MongoDB connection error:", error));
 
 // Serve static files from the React frontend
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 // routes
 app.use("/api/users", userRoutes);

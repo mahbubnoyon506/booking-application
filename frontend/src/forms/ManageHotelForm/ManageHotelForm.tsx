@@ -4,6 +4,7 @@ import TypeSection from "./TypeSection";
 import FacilitiesSection from "./FacilitiesSection";
 import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
+import { HotelType } from "../../shared/types";
 
 export type HotelFormData = {
   name: string;
@@ -16,15 +17,47 @@ export type HotelFormData = {
   childCount: number;
   pricePerNight: number;
   starRating: number;
-  imageURLs: string[]; // Array of strings for existing image URLs
+  imageURLs: string[];
   imageFiles: FileList;
 };
-const ManageHotelForm = () => {
+
+type Props = {
+  hotel?: HotelType;
+  onSave: (hotelFormData: FormData) => void;
+  isPending: boolean;
+};
+
+const ManageHotelForm = ({ onSave, isPending }: Props) => {
   const formMethod = useForm<HotelFormData>();
   const { handleSubmit } = formMethod;
 
-  const onSubmit = (data: HotelFormData) => {
-    console.log(data);
+  const onSubmit = (formDataJson: HotelFormData) => {
+    const formData = new FormData();
+    formData.append("name", formDataJson.name);
+    formData.append("city", formDataJson.city);
+    formData.append("country", formDataJson.country);
+    formData.append("description", formDataJson.description);
+    formData.append("type", formDataJson.type);
+    formData.append("pricePerNight", formDataJson.pricePerNight.toString());
+    formData.append("starRating", formDataJson.starRating.toString());
+    formData.append("adultCount", formDataJson.adultCount.toString());
+    formData.append("childCount", formDataJson.childCount.toString());
+
+    formDataJson.facilities.forEach((facility, index) => {
+      formData.append(`facilities[${index}]`, facility);
+    });
+
+    if (formDataJson.imageURLs) {
+      formDataJson.imageURLs.forEach((url, index) => {
+        formData.append(`imageURLs[${index}]`, url);
+      });
+    }
+
+    Array.from(formDataJson.imageFiles).forEach((imageFile) => {
+      formData.append(`imageFiles`, imageFile);
+    });
+
+    onSave(formData);
   };
   return (
     <FormProvider {...formMethod}>
@@ -42,6 +75,7 @@ const ManageHotelForm = () => {
           <button
             type="submit"
             className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl disabled:bg-gray-500"
+            disabled={isPending}
           >
             Save
           </button>

@@ -1,9 +1,9 @@
-import { FormData } from "./pages/Register";
+import { RegisterFormData } from "./pages/Register";
 import { SignInFormValues } from "./pages/SignIn";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
-export const handleRegister = async (formData: FormData) => {
+export const handleRegister = async (formData: RegisterFormData) => {
   const response = await fetch(`${API_BASE_URL}/api/users/register`, {
     method: "POST",
     credentials: "include",
@@ -53,6 +53,18 @@ export const handleSignOut = async () => {
 export const verifyToken = async () => {
   const response = await fetch(`${API_BASE_URL}/api/auth/verify-token`, {
     credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return await response.json();
+};
+
+export const addHotel = async (hotelFormData: FormData) => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels/`, {
+    method: "POST",
+    credentials: "include",
+    body: hotelFormData,
   });
   if (!response.ok) {
     throw new Error("Network response was not ok");
