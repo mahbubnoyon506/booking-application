@@ -62,4 +62,14 @@ router.post(
   }
 );
 
+// "/api/my-hotels"
+router.get("/", async (req, res) => {
+  try {
+    const hotels = await Hotel.find({ userId: req.userId });
+    return res.json(hotels);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching hotels" });
+  }
+});
+
 module.exports = router;
