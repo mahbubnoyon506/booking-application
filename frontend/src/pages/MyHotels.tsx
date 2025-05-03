@@ -11,7 +11,6 @@ const MyHotels = () => {
     queryKey: ["my-hotels"],
     queryFn: fetchHotels,
   });
-  console.log(hotels);
 
   return (
     <div className="space-y-5">

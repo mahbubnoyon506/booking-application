@@ -5,6 +5,7 @@ import { addHotel } from "../api-clients";
 
 const AddHotel = () => {
   const { showToast } = useAppContext();
+
   const { mutate, isPending } = useMutation({
     mutationFn: addHotel,
     onSuccess: async () => {
