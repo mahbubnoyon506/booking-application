@@ -72,4 +72,15 @@ router.get("/", verifyToken, async (req, res) => {
   }
 });
 
+// "/api/my-hotels/id"
+router.get("/:id", verifyToken, async (req, res) => {
+  const id = req.params.id.toString();
+  try {
+    const hotel = await Hotel.find({ _id: id, userId: req.userId });
+    return res.json(hotel);
+  } catch (error) {
+    return res.status(500).json({ message: "Error fetching hotel" });
+  }
+});
+
 module.exports = router;
