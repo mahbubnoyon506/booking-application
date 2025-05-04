@@ -39,7 +39,7 @@ const ManageHotelForm = ({ onSave, isPending, hotel }: Props) => {
   const onSubmit = (formDataJson: HotelFormData) => {
     const formData = new FormData();
     if (hotel) {
-      formData.append("hotelId", hotel._id);
+      formData.append("id", hotel._id);
     }
     formData.append("name", formDataJson.name);
     formData.append("city", formDataJson.city);
@@ -61,7 +61,7 @@ const ManageHotelForm = ({ onSave, isPending, hotel }: Props) => {
       });
     }
 
-    Array.from(formDataJson.imageFiles).forEach((imageFile) => {
+    Array.from(formDataJson?.imageFiles || []).forEach((imageFile) => {
       formData.append(`imageFiles`, imageFile);
     });
 

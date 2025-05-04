@@ -10,7 +10,7 @@ const AddHotel = () => {
     mutationFn: addHotel,
     onSuccess: async () => {
       showToast({
-        message: "Holet added",
+        message: "Hotel added",
         type: "SUCCESS",
       });
     },
