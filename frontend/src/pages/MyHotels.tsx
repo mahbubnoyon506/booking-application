@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchHotels } from "../api-clients";
+import { fetchMyHotels } from "../api-clients";
 import { HotelType } from "../shared/types";
 import { Link } from "react-router-dom";
 import { BsBuilding, BsMap } from "react-icons/bs";
@@ -9,7 +9,7 @@ import Loader from "../components/Loader";
 const MyHotels = () => {
   const { data: hotels, isLoading } = useQuery<HotelType[], Error>({
     queryKey: ["my-hotels"],
-    queryFn: fetchHotels,
+    queryFn: fetchMyHotels,
   });
 
   return (

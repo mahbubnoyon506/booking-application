@@ -15,7 +15,8 @@ cloudinary.config({
 
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
-const hotelRoutes = require("./routes/my-hotels");
+const myHotelRoutes = require("./routes/my-hotels");
+const hotelsRoute = require("./routes/hotels");
 
 const app = express();
 const PORT = process.env.PORT || 7000;
@@ -43,7 +44,8 @@ app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/my-hotels", hotelRoutes);
+app.use("/api/my-hotels", myHotelRoutes);
+app.use("/api/hotels", hotelsRoute);
 
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
