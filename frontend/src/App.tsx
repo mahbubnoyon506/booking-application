@@ -13,6 +13,7 @@ import AddHotel from "./pages/AddHotel";
 import { useAppContext } from "./contexts/AppContext";
 import MyHotels from "./pages/MyHotels";
 import UpdateHotel from "./pages/UpdateHotel";
+import Search from "./pages/Search";
 
 function App() {
   const [isLoading, setIsloading] = useState(false);
@@ -47,7 +48,7 @@ function App() {
               path="/search"
               element={
                 <Layout>
-                  <p>Search Page</p>
+                  <Search />
                 </Layout>
               }
             />
@@ -61,14 +62,6 @@ function App() {
             />
             <Route
               path="/sign-in"
-              element={
-                <Layout>
-                  <SignIn />
-                </Layout>
-              }
-            />
-            <Route
-              path="/search"
               element={
                 <Layout>
                   <SignIn />
