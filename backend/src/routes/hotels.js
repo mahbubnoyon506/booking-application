@@ -2,6 +2,7 @@ const express = require("express");
 const Hotel = require("../models/hotel");
 const router = express.Router();
 
+// "/api/hotels/search"
 router.get("/search", async (req, res) => {
   try {
     pageSize = 5;

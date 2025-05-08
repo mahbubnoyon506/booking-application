@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { searchHotels } from "../api-clients";
 import SearchResultsCard from "./SearchResultsCard";
 import { HotelType } from "../shared/types";
+import Pagination from "../components/Pagination";
+import Loader from "../components/Loader";
 
 const Search = () => {
   const search = useSearchContext();
@@ -20,10 +22,10 @@ const Search = () => {
   };
 
   const { data: hotelData, isLoading } = useQuery({
-    queryKey: ["sear-hotels"],
+    queryKey: ["search-hotels", searchParams],
     queryFn: () => searchHotels(searchParams),
+    staleTime: 0,
   });
-  console.log(hotelData, isLoading, setPage(1));
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
@@ -55,9 +57,20 @@ const Search = () => {
             </option>
           </select>
         </div>
-        {hotelData?.data.map((hotel: HotelType) => (
-          <SearchResultsCard hotel={hotel} />
-        ))}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          hotelData?.data.map((hotel: HotelType) => (
+            <SearchResultsCard key={hotel._id} hotel={hotel} />
+          ))
+        )}
+        <div>
+          <Pagination
+            page={hotelData?.pagination.curentPage}
+            pages={hotelData?.pagination.pages}
+            onPageChange={(page) => setPage(page)}
+          />
+        </div>
       </div>
     </div>
   );
