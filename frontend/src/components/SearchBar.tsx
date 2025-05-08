@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useSearchContext } from "../contexts/SearchContext";
 import { useNavigate } from "react-router-dom";
 import { MdTravelExplore } from "react-icons/md";
