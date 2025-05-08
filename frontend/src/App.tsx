@@ -67,6 +67,14 @@ function App() {
                 </Layout>
               }
             />
+            <Route
+              path="/search"
+              element={
+                <Layout>
+                  <SignIn />
+                </Layout>
+              }
+            />
             {isLoggedIn && (
               <>
                 <Route
