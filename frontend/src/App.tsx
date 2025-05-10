@@ -14,6 +14,7 @@ import { useAppContext } from "./contexts/AppContext";
 import MyHotels from "./pages/MyHotels";
 import UpdateHotel from "./pages/UpdateHotel";
 import Search from "./pages/Search";
+import HotelDetails from "./pages/HotelDetails";
 
 function App() {
   const [isLoading, setIsloading] = useState(false);
@@ -49,6 +50,14 @@ function App() {
               element={
                 <Layout>
                   <Search />
+                </Layout>
+              }
+            />
+            <Route
+              path="/hotels/:hotelId"
+              element={
+                <Layout>
+                  <HotelDetails />
                 </Layout>
               }
             />

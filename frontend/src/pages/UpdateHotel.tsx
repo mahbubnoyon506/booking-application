@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { fetchHotelById, updateHotelById } from "../api-clients";
+import { fetchMyHotelById, updateMyHotel } from "../api-clients";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import ManageHotelForm from "../forms/ManageHotelForm/ManageHotelForm";
@@ -11,13 +11,13 @@ const UpdateHotel = () => {
 
   const { data: hotel, isLoading } = useQuery({
     queryKey: ["my-hotel-id", hotelId],
-    queryFn: () => fetchHotelById(hotelId || ""),
+    queryFn: () => fetchMyHotelById(hotelId || ""),
     enabled: !!hotelId,
   });
 
   const { mutate, isPending } = useMutation({
     mutationFn: (hotelFormData: FormData) =>
-      updateHotelById(hotelId || "", hotelFormData),
+      updateMyHotel(hotelId || "", hotelFormData),
     onSuccess: async () => {
       showToast({
         message: "Hotel updated",
