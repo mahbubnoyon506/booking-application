@@ -31,6 +31,7 @@ const Search = () => {
     types: selectedHotelTypes,
     facilities: selectedFacilities,
     maxPrice: selectedPrice?.toString(),
+    sortOption,
   };
 
   const { data: hotelData, isLoading } = useQuery({
