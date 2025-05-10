@@ -7,14 +7,12 @@ import GuestInfoForm from "../forms/GuestInfoForm";
 
 const HotelDetails = () => {
   const { hotelId } = useParams();
-  console.log(hotelId);
 
   const { data: hotel, isLoading } = useQuery({
     queryKey: ["hotel-id", hotelId],
     queryFn: () => getHotelById(hotelId || ""),
     enabled: !!hotelId,
   });
-  console.log(hotel);
 
   return (
     <>

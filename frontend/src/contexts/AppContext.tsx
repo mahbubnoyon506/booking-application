@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import Toast from "../components/Toast";
 import { useQuery } from "@tanstack/react-query";
-import { verifyToken } from "../api-clients";
+import { fetchCurrentUser, verifyToken } from "../api-clients";
+import { UserType } from "../shared/types";
 
 type ToastMessage = {
   message: string;
@@ -11,6 +12,7 @@ type ToastMessage = {
 type AppContextType = {
   showToast: (toastMessage: ToastMessage) => void;
   isLoggedIn: boolean;
+  meData: UserType;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -26,6 +28,13 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
     retry: false,
   });
 
+  const { data: meData } = useQuery({
+    queryKey: ["current-user"],
+    queryFn: fetchCurrentUser,
+  });
+
+  console.log(meData);
+
   const showToast = (toastMessage: ToastMessage) => {
     setToast(toastMessage);
   };
@@ -35,6 +44,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         showToast,
         isLoggedIn: !isError,
+        meData,
       }}
     >
       {toast && (

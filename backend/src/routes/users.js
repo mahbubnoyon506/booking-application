@@ -6,6 +6,7 @@ const { verifyToken } = require("../middleware/auth");
 
 const router = express.Router();
 
+// "/api/users/me"
 router.get("/me", verifyToken, async (req, res) => {
   const userId = req.userId;
   try {
