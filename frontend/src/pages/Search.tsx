@@ -66,7 +66,7 @@ const Search = () => {
         )}
         <div>
           <Pagination
-            page={hotelData?.pagination.curentPage}
+            page={hotelData?.pagination.currentPage}
             pages={hotelData?.pagination.pages}
             onPageChange={(page) => setPage(page)}
           />
