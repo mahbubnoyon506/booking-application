@@ -2,8 +2,22 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/user");
+const { verifyToken } = require("../middleware/auth");
 
 const router = express.Router();
+
+router.get("/me", verifyToken, async (req, res) => {
+  const userId = req.userId;
+  try {
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+    res.json(user);
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+});
 
 // "/api/users/register"
 router.post(

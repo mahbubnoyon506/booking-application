@@ -32,7 +32,7 @@ const HotelDetails = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {hotel?.imageURLs?.map((image: any) => (
+            {hotel?.imageURLs?.map((image) => (
               <div className="h-[300px]">
                 <img
                   src={image}
