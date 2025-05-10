@@ -132,6 +132,7 @@ export const searchHotels = async (searchParams: SearchParams) => {
   queryParams.append("adultCount", searchParams.adultCount || "");
   queryParams.append("childCount", searchParams.childCount || "");
   queryParams.append("page", searchParams.page || "");
+  queryParams.append("maxPrice", searchParams.maxPrice || "");
 
   searchParams.facilities?.forEach((facility) =>
     queryParams.append("facilities", facility)
