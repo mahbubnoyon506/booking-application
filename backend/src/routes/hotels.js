@@ -1,7 +1,11 @@
 const express = require("express");
 const { param, validationResult } = require("express-validator");
+const Stripe = require("stripe");
 const Hotel = require("../models/hotel");
+const { verifyToken } = require("../middleware/auth");
 const router = express.Router();
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // "/api/hotels/search"
 router.get("/search", async (req, res) => {
@@ -64,6 +68,38 @@ router.get(
       console.log(error);
       res.status(500).json({ message: "Error fetching hotel" });
     }
+  }
+);
+
+router.post(
+  "/:hotelId/bookings/payment-intent",
+  verifyToken,
+  async (req, res) => {
+    //total cost
+    //hotelId
+    //userId
+    const { numberOfNights } = req.body;
+    const hotelId = req.params.hotelId;
+    const hotel = await Hotel.findById(hotelId);
+    if (!hotel) {
+      return res.status(400).json({ message: "Hotel not found" });
+    }
+    const totalCost = hotel.pricePerNight * numberOfNights;
+    const paymentIntent = await stripe.paymentIntent.create({
+      amount: totalCost,
+      currency: "usd",
+      metadata: { hotelId, userId: req.userId },
+    });
+    if (!paymentIntent.client_secret) {
+      return res.status(500).json({ message: "Error creating payment intent" });
+    }
+    const response = {
+      paymentIntentId: paymentIntent.id,
+      clientSecret: paymentIntent.client_secret.toString(),
+      totalCost,
+    };
+
+    res.send(response);
   }
 );
 
