@@ -40,7 +40,6 @@ const Booking = () => {
         numberOfNights={numberOfNights}
         hotel={hotel}
       />
-
       <BookingForm currentUser={meData} />
     </div>
   );
