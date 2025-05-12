@@ -3,6 +3,9 @@ import Toast from "../components/Toast";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCurrentUser, verifyToken } from "../api-clients";
 import { UserType } from "../shared/types";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
+
+const STRIPE_PUB_KEY = import.meta.env.VITE_STRIPE_PUB_KEY || "";
 
 type ToastMessage = {
   message: string;
@@ -13,9 +16,12 @@ type AppContextType = {
   showToast: (toastMessage: ToastMessage) => void;
   isLoggedIn: boolean;
   meData: UserType;
+  stripePromise: Promise<Stripe | null>;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
+
+const stripePromise = loadStripe(STRIPE_PUB_KEY);
 
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -31,9 +37,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const { data: meData } = useQuery({
     queryKey: ["current-user"],
     queryFn: fetchCurrentUser,
+    retry: false,
   });
-
-  console.log(meData);
 
   const showToast = (toastMessage: ToastMessage) => {
     setToast(toastMessage);
@@ -45,6 +50,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
         showToast,
         isLoggedIn: !isError,
         meData,
+        stripePromise,
       }}
     >
       {toast && (

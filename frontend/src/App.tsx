@@ -81,7 +81,7 @@ function App() {
             {isLoggedIn && (
               <>
                 <Route
-                  path="/hotel/:hotelId/booking"
+                  path="/hotels/:hotelId/booking"
                   element={
                     <Layout>
                       <Booking />

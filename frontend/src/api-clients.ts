@@ -1,6 +1,6 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormValues } from "./pages/SignIn";
-import { HotelType } from "./shared/types";
+import { HotelType, PaymentIntentResponse } from "./shared/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -11,8 +11,7 @@ export const fetchCurrentUser = async () => {
   if (!response.ok) {
     throw new Error("Error fetching user data");
   }
-  const data = await response.json();
-  return data ?? null;
+  return await response.json();
 };
 
 export const handleRegister = async (formData: RegisterFormData) => {
@@ -169,5 +168,28 @@ export const getHotelById = async (hotelId: string) => {
   if (!response.ok) {
     throw new Error("Error fetching hotel");
   }
+  return await response.json();
+};
+
+export const createPaymentIntent = async (
+  hotelId: string,
+  numberOfNights: string
+): Promise<PaymentIntentResponse> => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/hotels/${hotelId}/booking/payment-intent`,
+    {
+      credentials: "include",
+      method: "POST",
+      body: JSON.stringify({ numberOfNights }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error fetching payment intent");
+  }
+
   return await response.json();
 };

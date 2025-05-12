@@ -6,6 +6,7 @@ const { verifyToken } = require("../middleware/auth");
 const router = express.Router();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+console.log(stripe);
 
 // "/api/hotels/search"
 router.get("/search", async (req, res) => {
@@ -49,7 +50,7 @@ router.get("/search", async (req, res) => {
   }
 });
 
-// "/api/hotels/id"
+// "/api/hotels/[id]"
 router.get(
   "/:id",
   param("id").notEmpty().withMessage("Hotel id is required"),
@@ -71,8 +72,9 @@ router.get(
   }
 );
 
+// "/api/hotels/[hotelID]/booking/payment-intent"
 router.post(
-  "/:hotelId/bookings/payment-intent",
+  "/:hotelId/booking/payment-intent",
   verifyToken,
   async (req, res) => {
     const { numberOfNights } = req.body;
@@ -83,8 +85,8 @@ router.post(
     }
 
     const totalCost = hotel.pricePerNight * numberOfNights;
-    const paymentIntent = await stripe.paymentIntent.create({
-      amount: totalCost,
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: totalCost * 100,
       currency: "usd",
       metadata: { hotelId, userId: req.userId },
     });
@@ -102,6 +104,7 @@ router.post(
   }
 );
 
+// "/api/hotels/[hotelID]/booking
 router.post("/:hotelId/booking", verifyToken, async (req, res) => {
   try {
     const paymentIntentId = req.body.paymentIntentId;

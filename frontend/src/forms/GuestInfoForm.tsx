@@ -64,7 +64,7 @@ const GuestInfoForm = ({ hotelId, pricePerNight }: Props) => {
       data.adultCount,
       data.childCount
     );
-    navigate(`/hotel/${hotelId}/booking`);
+    navigate(`/hotels/${hotelId}/booking`);
   };
 
   return (
