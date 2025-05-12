@@ -2,36 +2,71 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { PaymentIntentResponse, UserType } from "../shared/types";
 import { useForm } from "react-hook-form";
 import { StripeCardElement } from "@stripe/stripe-js";
+import { useSearchContext } from "../contexts/SearchContext";
+import { useParams } from "react-router-dom";
+import { useAppContext } from "../contexts/AppContext";
+import { useMutation } from "@tanstack/react-query";
+import { createRoomBooking } from "../api-clients";
 
 type Props = {
   currentUser: UserType;
   paymentIntentData: PaymentIntentResponse;
 };
 
-type BookingFormData = {
+export type BookingFormData = {
   firstName: string;
   lastName: string;
   email: string;
+  adultCount: number;
+  childCount: number;
+  checkIn: string;
+  checkOut: string;
+  hotelId: string;
+  paymentIntentId: string;
+  totalCost: number;
 };
 
 const BookingForm = ({ currentUser, paymentIntentData }: Props) => {
   const stripe = useStripe();
   const elements = useElements();
-  console.log(stripe);
+  const search = useSearchContext();
+  const { showToast } = useAppContext();
+  const { hotelId } = useParams();
+
   const { register, handleSubmit } = useForm<BookingFormData>({
     defaultValues: {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       email: currentUser.email,
+      adultCount: search.adultCount,
+      childCount: search.childCount,
+      checkIn: search.checkIn.toISOString(),
+      checkOut: search.checkOut.toISOString(),
+      hotelId: hotelId,
+      totalCost: paymentIntentData.totalCost,
+      paymentIntentId: paymentIntentData.paymentIntentId,
     },
   });
-  console.log(paymentIntentData);
+
+  const { mutate: bookRoom, isPending } = useMutation({
+    mutationFn: createRoomBooking,
+    onSuccess: async () => {
+      showToast({
+        message: "Booking successful!",
+        type: "SUCCESS",
+      });
+    },
+    onError: () => {
+      showToast({
+        message: "An error occurred. Please try again.",
+        type: "ERROR",
+      });
+    },
+  });
   const onSubmit = async (data: BookingFormData) => {
-    console.log(data);
     if (!stripe || !elements) {
       return;
     }
-
     const result = await stripe?.confirmCardPayment(
       paymentIntentData.clientSecret,
       {
@@ -42,7 +77,7 @@ const BookingForm = ({ currentUser, paymentIntentData }: Props) => {
     );
 
     if (result?.paymentIntent?.status === "succeeded") {
-      console.log("");
+      bookRoom({ ...data, paymentIntentId: result.paymentIntent.id });
     }
   };
 
@@ -107,11 +142,11 @@ const BookingForm = ({ currentUser, paymentIntentData }: Props) => {
 
         <div className="flex justify-end">
           <button
-            // disabled={isLoading}
+            disabled={isPending}
             type="submit"
             className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-md disabled:bg-gray-500"
           >
-            {/* {isLoading ? "Saving..." : "Confirm Booking"} */}
+            {isPending ? "Saving..." : "Confirm Booking"}
             Confirm Booking
           </button>
         </div>

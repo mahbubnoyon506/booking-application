@@ -6,7 +6,6 @@ const { verifyToken } = require("../middleware/auth");
 const router = express.Router();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-console.log(stripe);
 
 // "/api/hotels/search"
 router.get("/search", async (req, res) => {
@@ -108,7 +107,8 @@ router.post(
 router.post("/:hotelId/booking", verifyToken, async (req, res) => {
   try {
     const paymentIntentId = req.body.paymentIntentId;
-    const paymentIntent = await stripe.paymentIntents.retrive(paymentIntentId);
+
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
     if (!paymentIntent) {
       return res.status(400).json({ message: "Payment intent not found" });
@@ -131,16 +131,18 @@ router.post("/:hotelId/booking", verifyToken, async (req, res) => {
       ...req.body,
       userId: req.userId,
     };
+
     const hotel = await Hotel.findByIdAndUpdate(
-      { _id: req.params.hotelId },
-      { $push: { bookings: newBooking } }
+      req.params.hotelId,
+      { $push: { bookings: newBooking } },
+      { new: true }
     );
 
     if (!hotel) {
       return res.status(400).json({ message: "Hotel not found" });
     }
-    await hotel.save();
-    res.status(200).send();
+
+    res.status(200).json({ message: "Booking success" });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }

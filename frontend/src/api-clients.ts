@@ -1,3 +1,4 @@
+import { BookingFormData } from "./forms/BookingForm";
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormValues } from "./pages/SignIn";
 import { HotelType, PaymentIntentResponse } from "./shared/types";
@@ -192,4 +193,22 @@ export const createPaymentIntent = async (
   }
 
   return await response.json();
+};
+
+export const createRoomBooking = async (formData: BookingFormData) => {
+  const respose = await fetch(
+    `${API_BASE_URL}/api/hotels/${formData.hotelId}/booking`,
+    {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }
+  );
+  if (!respose.ok) {
+    throw new Error("Error creating booking");
+  }
+  return await respose.json();
 };
