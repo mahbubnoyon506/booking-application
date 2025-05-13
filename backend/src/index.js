@@ -17,6 +17,7 @@ const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const myHotelRoutes = require("./routes/my-hotels");
 const hotelsRoute = require("./routes/hotels");
+const myBookingsRoute = require("./routes/my-bookings");
 
 const app = express();
 const PORT = process.env.PORT || 7000;
@@ -46,6 +47,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/my-hotels", myHotelRoutes);
 app.use("/api/hotels", hotelsRoute);
+app.use("/api/my-bookings", myBookingsRoute);
 
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
