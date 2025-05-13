@@ -17,6 +17,7 @@ import Search from "./pages/Search";
 import HotelDetails from "./pages/HotelDetails";
 import Booking from "./pages/Booking";
 import MyBookings from "./pages/MyBookings";
+import Home from "./pages/Home";
 
 function App() {
   const [isLoading, setIsloading] = useState(false);
@@ -43,7 +44,7 @@ function App() {
               path="/"
               element={
                 <Layout>
-                  <p>Home Page</p>
+                  <Home />
                 </Layout>
               }
             />

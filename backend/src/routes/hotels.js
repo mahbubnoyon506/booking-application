@@ -49,6 +49,17 @@ router.get("/search", async (req, res) => {
   }
 });
 
+// "/api/hotels/"
+router.get("/", async (req, res) => {
+  try {
+    const hotels = await Hotel.find().sort("-lastUpdated");
+    res.json(hotels);
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ message: "Error fetching hotels" });
+  }
+});
+
 // "/api/hotels/[id]"
 router.get(
   "/:id",
