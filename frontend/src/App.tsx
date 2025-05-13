@@ -16,6 +16,7 @@ import UpdateHotel from "./pages/UpdateHotel";
 import Search from "./pages/Search";
 import HotelDetails from "./pages/HotelDetails";
 import Booking from "./pages/Booking";
+import MyBookings from "./pages/MyBookings";
 
 function App() {
   const [isLoading, setIsloading] = useState(false);
@@ -109,6 +110,14 @@ function App() {
                   element={
                     <Layout>
                       <UpdateHotel />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/my-bookings"
+                  element={
+                    <Layout>
+                      <MyBookings />
                     </Layout>
                   }
                 />
