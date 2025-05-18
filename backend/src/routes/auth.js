@@ -39,10 +39,16 @@ router.post(
       const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, {
         expiresIn: "1d",
       });
+      // res.cookie("auth_token", token, {
+      //   httpOnly: true,
+      //   secure: process.env.NODE_ENV === "production",
+      //   maxAge: 86400000, // 1 day
+      // });
       res.cookie("auth_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        maxAge: 86400000, // 1 day
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        maxAge: 86400000,
       });
       return res.status(200).json({
         message: "Login successful",
