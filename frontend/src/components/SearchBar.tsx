@@ -27,6 +27,13 @@ const SearchBar = () => {
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 1);
+  const handleReset = () => {
+    setDestination("");
+    setAdultCount(1);
+    setChildCount(1);
+    setCheckIn(minDate);
+    setCheckOut(minDate);
+  };
 
   return (
     <form
@@ -99,7 +106,10 @@ const SearchBar = () => {
         <button className="w-2/3 bg-blue-600 text-white h-full p-2 font-bold text-xl hover:bg-blue-500">
           Search
         </button>
-        <button className="w-1/3 bg-red-600 text-white h-full p-2 font-bold text-xl hover:bg-red-500">
+        <button
+          onClick={handleReset}
+          className="w-1/3 bg-red-600 text-white h-full p-2 font-bold text-xl hover:bg-red-500"
+        >
           Clear
         </button>
       </div>
