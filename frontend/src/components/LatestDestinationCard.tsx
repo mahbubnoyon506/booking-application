@@ -19,9 +19,12 @@ const LatestDestinationCard = ({ hotel }: Props) => {
       </div>
 
       <div className="absolute bottom-0 p-4 bg-black bg-opacity-50 w-full rounded-b-md">
-        <span className="text-white font-bold tracking-tight text-3xl">
+        <p className="text-white font-bold tracking-tight text-xl">
           {hotel.name}
-        </span>
+        </p>
+        <p className="text-white text-md ">
+          {hotel.city + ", " + hotel.country}
+        </p>
       </div>
     </Link>
   );
