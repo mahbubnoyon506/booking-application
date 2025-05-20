@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSearchContext } from "../contexts/SearchContext";
 import { useAppContext } from "../contexts/AppContext";
+import { differenceInMilliseconds } from "date-fns";
 
 type Props = {
   hotelId: string;
@@ -40,6 +41,9 @@ const GuestInfoForm = ({ hotelId, pricePerNight }: Props) => {
 
   const checkIn = watch("checkIn");
   const checkOut = watch("checkOut");
+  const numberOfNights = Math.ceil(
+    differenceInMilliseconds(checkOut, checkIn) / (1000 * 60 * 60 * 24)
+  );
 
   const minDate = new Date();
   const maxDate = new Date();
@@ -64,7 +68,9 @@ const GuestInfoForm = ({ hotelId, pricePerNight }: Props) => {
       data.adultCount,
       data.childCount
     );
-    navigate(`/hotels/${hotelId}/booking`);
+    if (numberOfNights > 0) {
+      navigate(`/hotels/${hotelId}/booking`);
+    }
   };
 
   return (
@@ -105,6 +111,11 @@ const GuestInfoForm = ({ hotelId, pricePerNight }: Props) => {
               className="min-w-full bg-white p-2 focus:outline-none"
               wrapperClassName="min-w-full"
             />
+            {numberOfNights <= 0 && (
+              <span className="text-red-500 text-xs">
+                At least one day is required to book.
+              </span>
+            )}
           </div>
           <div className="flex bg-white px-2 py-1 gap-2">
             <label className="items-center flex">

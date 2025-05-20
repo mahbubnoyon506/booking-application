@@ -3,7 +3,7 @@ import { PaymentIntentResponse, UserType } from "../shared/types";
 import { useForm } from "react-hook-form";
 import { StripeCardElement } from "@stripe/stripe-js";
 import { useSearchContext } from "../contexts/SearchContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import { useMutation } from "@tanstack/react-query";
 import { createRoomBooking } from "../api-clients";
@@ -27,6 +27,7 @@ export type BookingFormData = {
 };
 
 const BookingForm = ({ currentUser, paymentIntentData }: Props) => {
+  const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
   const search = useSearchContext();
@@ -55,6 +56,7 @@ const BookingForm = ({ currentUser, paymentIntentData }: Props) => {
         message: "Booking successful!",
         type: "SUCCESS",
       });
+      navigate("/my-bookings");
     },
     onError: () => {
       showToast({
