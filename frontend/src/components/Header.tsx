@@ -2,11 +2,15 @@ import { Link } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import { useAppContext } from "../contexts/AppContext";
 
-function Header() {
+type Props = {
+  isHomeRoute: boolean;
+};
+
+function Header({ isHomeRoute }: Props) {
   const { isLoggedIn } = useAppContext();
 
   return (
-    <div className=" bg-blue-800 py-6">
+    <div className={`bg-blue-800 pt-6 ${isHomeRoute ? "pb-16" : "pb-6"}`}>
       <div className="px-[4%] lg:px-[8%] flex justify-between">
         <span className="text-3xl text-bold text-white tracking-tight">
           <Link to="/">Holidays.com</Link>
