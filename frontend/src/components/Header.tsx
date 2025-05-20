@@ -57,8 +57,8 @@ function Header({ isHomeRoute }: Props) {
         </span>
       </div>
       <div
-        className={`absolute w-full bg-white p-5 space-y-3 transition-all duration-500 z-50 ${
-          showPhoneMenu ? "top-0 right-0" : "-top-44 right-0 "
+        className={`md:hidden absolute w-full bg-white p-5 space-y-3 transition-all duration-500 z-50 ${
+          showPhoneMenu ? "top-0 right-0" : "-top-[200px] right-0 "
         } top-0 right-0 `}
       >
         <div className="flex justify-end">
