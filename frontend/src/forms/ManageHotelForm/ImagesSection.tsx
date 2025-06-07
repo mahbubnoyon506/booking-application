@@ -30,9 +30,8 @@ const ImagesSection = () => {
         <div className="grid grid-cols-6 gap-4">
           {selectedFiles instanceof FileList &&
             Array.from(selectedFiles).map((file, index) => (
-              <div>
+              <div key={index}>
                 <img
-                  key={index}
                   src={URL.createObjectURL(file)}
                   alt={`Selected preview ${index}`}
                   className="min-h-full object-contain"
