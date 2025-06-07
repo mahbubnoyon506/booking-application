@@ -5,6 +5,7 @@ import { HotelType } from "../shared/types";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Home = () => {
     threshold: 0.2,
   });
 
-  const { data: hotels } = useQuery<HotelType[], Error>({
+  const { data: hotels, isLoading } = useQuery<HotelType[], Error>({
     queryKey: ["query-hotels"],
     queryFn: fetchHotels,
   });
@@ -109,18 +110,22 @@ const Home = () => {
         <p className="text-gray-800">
           Most recent desinations added by our hosts
         </p>
-        <div className="grid gap-4">
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-            {topRowHotels.map((hotel) => (
-              <LatestDestinationCard hotel={hotel} />
-            ))}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="grid gap-4">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+              {topRowHotels.map((hotel, index) => (
+                <LatestDestinationCard hotel={hotel} key={index} />
+              ))}
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              {bottomRowHotels.map((hotel, index) => (
+                <LatestDestinationCard hotel={hotel} key={index} />
+              ))}
+            </div>
           </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            {bottomRowHotels.map((hotel) => (
-              <LatestDestinationCard hotel={hotel} />
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </>
   );

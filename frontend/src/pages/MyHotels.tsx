@@ -66,7 +66,9 @@ const MyHotels = () => {
               </span>
             </div>
           ))
-        ) : null}
+        ) : (
+          <p className="text-lg font-medium">No hotels found</p>
+        )}
       </div>
     </div>
   );
